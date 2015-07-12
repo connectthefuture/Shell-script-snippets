@@ -28,7 +28,8 @@ VERIFY_FILES=1
 CHECKSUMS_ONLY=0
 INCLUDE_HIDDEN=0
 
-args=()
+source=""
+copies=()
 while [ $# -gt 0 ] ; do
 	case "$1" in
     -h|--help)
@@ -49,13 +50,17 @@ while [ $# -gt 0 ] ; do
         usage "Unknown option '$1'"
         ;;
     *)
-        args=("${args[@]}" "$1")
+        if [ -z "$source" ]; then
+    		source="$1"
+		else
+			copies=("${copies[@]}" "$1")
+    	fi
         ;;
     esac
     shift
 done
 
-if [ ${#args[@]} -lt 2 ] ; then
+if [ ${#copies[@]} -lt 1 ] ; then
 	usage
 fi
 
@@ -64,7 +69,12 @@ VERIFY_FILES=$VERIFY_FILES
 CHECKSUMS_ONLY=$CHECKSUMS_ONLY
 INCLUDE_HIDDEN=$INCLUDE_HIDDEN
 EOF
- 
-for arg in "${args[@]}" ; do
-    echo "'$arg'"
+
+num_copies=${#copies[@]}
+
+echo "# copies = "$num_copies
+
+echo "'$source'"
+for copy in "${copies[@]}" ; do
+    echo "'$copy'"
 done
