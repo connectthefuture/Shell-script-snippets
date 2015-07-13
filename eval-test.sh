@@ -23,5 +23,11 @@ fi
 cd "$source"
 
 echo "checksums on ""$source"
-#eval find -s * -type f " $include_hidden_opt " "-exec md5 -r \"{}\" \;"
-eval "find -s * -type f ""$include_hidden_opt" " -exec md5 -r \"{}\" \; >> ""$log_file"
+
+command="find -s * -type f "
+if [ "$INCLUDE_HIDDEN" == 0 ] ; then
+	command="$command -not -name \".*\" "
+fi
+command="$command -exec md5 -r \"{}\" \; >> ""$log_file"
+
+eval "$command"
