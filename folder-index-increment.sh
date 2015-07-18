@@ -1,16 +1,25 @@
 #!/bin/bash
 
+AUTO_FOLDER_USE_DATE=1
+
 base_dir="/Users/tom/Documents/Temp/"
-dir_name="offload-"
+prefix="Offload-"
 index=1
 
-#while [ -d "$base_dir$dir_name$( printf '%03d' $index )" ] ; do
+#while [ -d "$base_dir$prefix$(printf '%03d' $index)" ] ; do
 #	index=$(( index + 1))
 #done
 
 path=""
+
 while [ true ]; do
-	path="$base_dir$dir_name$( printf '%03d' $index )"
+	path="$base_dir"
+	
+	if [ $AUTO_FOLDER_USE_DATE = 1 ] ; then
+		path="$path$(date +%F)/"
+	fi
+
+	path="$path$prefix$(printf '%03d' $index)"
 	
 	if [ ! -d "$path" ] ; then
 		break
@@ -19,5 +28,5 @@ while [ true ]; do
 	index=$(( index + 1))
 done
 
-#mkdir -p "$base_dir$dir_name$( printf '%03d' $index )"
-echo "$path"
+echo "Create $path"
+mkdir -p "$path"
