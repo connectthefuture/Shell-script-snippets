@@ -1,32 +1,44 @@
 #!/bin/bash
 
-AUTO_FOLDER_USE_DATE=1
+get_auto_directory_suffix()
+{
+	if [ $# -ne 3 ] ; then
+		echo "Usage: $0 base-dir use-date prefix" >&2
+		return 1
+	fi
+	
+	base_dir="$1"
+	use_date="$2"
+	prefix="$3"
+	
+	suffix=""
+	index=1
+	while [ true ]; do
+	
+		if [ $use_date = 1 ] ; then
+			suffix="$suffix$(date +'%Y-%m-%d')/"
+		fi
+		
+		suffix="$suffix$prefix$(printf '%03d' $index)"
+
+		if [ ! -d "$base_dir$suffix" ] ; then
+			break
+		fi
+	
+		index=$(( index + 1))
+	done
+	
+	echo "$suffix"
+}
+
+AUTO_FOLDER_USE_DATE=0
 
 base_dir="/Users/tom/Documents/Temp/"
 prefix="Offload-"
-index=1
 
-#while [ -d "$base_dir$prefix$(printf '%03d' $index)" ] ; do
-#	index=$(( index + 1))
-#done
+#mkdir -p "$path"
+#path="$(AutoDirectory '$base_dir' $AUTO_FOLDER_USE_DATE '$prefix')"
+suffix="$(get_auto_directory_suffix "$base_dir" $AUTO_FOLDER_USE_DATE "$prefix")"
 
-path=""
-
-while [ true ]; do
-	path="$base_dir"
-	
-	if [ $AUTO_FOLDER_USE_DATE = 1 ] ; then
-		path="$path$(date +%F)/"
-	fi
-
-	path="$path$prefix$(printf '%03d' $index)"
-	
-	if [ ! -d "$path" ] ; then
-		break
-	fi
-	
-	index=$(( index + 1))
-done
-
-echo "Create $path"
-mkdir -p "$path"
+echo "$suffix"
+echo "$base_dir$suffix"
