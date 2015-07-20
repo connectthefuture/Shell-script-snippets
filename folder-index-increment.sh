@@ -31,13 +31,18 @@ get_auto_directory_suffix()
 	echo "$suffix"
 }
 
-AUTO_FOLDER_USE_DATE=0
+AUTO_FOLDER_USE_DATE=1
 
-base_dir="/Users/tom/Documents/Temp/"
-prefix="Offload-"
+prefix="Offload "
 
-#mkdir -p "$path"
-suffix="$(get_auto_directory_suffix "$base_dir" $AUTO_FOLDER_USE_DATE "$prefix")"
+copies[0]="/VOLUMES/RAID_01/RAW/Day_01_"
+copies[1]="/VOLUMES/RAID_02/RAW/Day_01_"
+copies[2]="/VOLUMES/RAID_03/RAW/Day_01_"
+
+suffix="$(get_auto_directory_suffix "$copies[0]" $AUTO_FOLDER_USE_DATE "$prefix")"
 
 echo "$suffix"
-echo "$base_dir$suffix"
+for (( i = 0 ; i < ${#copies[@]} ; i++ )); do
+	copies[i]="${copies[i]}$suffix/"
+	echo "${copies[i]}"
+done
