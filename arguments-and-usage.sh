@@ -40,11 +40,9 @@ while [ $# -gt 0 ] ; do
         ;;
     --include-hidden)
         INCLUDE_HIDDEN=1
-        shift
         ;;
     --checksums-only)
         CHECKSUMS_ONLY=1
-        shift
         ;;
     -*)
         usage "Unknown option '$1'"
