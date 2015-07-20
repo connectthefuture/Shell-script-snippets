@@ -37,7 +37,6 @@ base_dir="/Users/tom/Documents/Temp/"
 prefix="Offload-"
 
 #mkdir -p "$path"
-#path="$(AutoDirectory '$base_dir' $AUTO_FOLDER_USE_DATE '$prefix')"
 suffix="$(get_auto_directory_suffix "$base_dir" $AUTO_FOLDER_USE_DATE "$prefix")"
 
 echo "$suffix"
