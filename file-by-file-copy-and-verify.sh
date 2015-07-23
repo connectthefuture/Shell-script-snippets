@@ -62,7 +62,9 @@ recursive_copy_and_verify()
 	
 	result=1
 	
-	#echo "Copy ""$src_path_start"" to ""$dst_path_start" | tee -a $logfile
+	if [ $VERBOSE = 1 ]; then
+		echo "copy $src_path_start to $dst_path_start"
+	fi
 	
 	cd "$src_path_start"
 	
@@ -78,10 +80,7 @@ recursive_copy_and_verify()
 	
 		dst_file="$dst_path/$(basename '$src_file')"
 
-		if copy_and_verify "$src_file" "$dst_file"; then
-			echo "SUCCESS!"
-		else
-			echo "ERROR!"
+		if ! copy_and_verify "$src_file" "$dst_file"; then
 			$result=0
 		fi
 	done
